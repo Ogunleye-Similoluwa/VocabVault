@@ -7,11 +7,54 @@ enum QuizType { favorites, random }
 class QuizController extends GetxController {
   final RxInt currentQuestionIndex = 0.obs;
   final RxInt score = 0.obs;
+  final RxInt totalPoints = 0.obs;
   final RxList<Map<String, dynamic>> quizQuestions = <Map<String, dynamic>>[].obs;
   final RxList<String> userAnswers = <String>[].obs;
   final RxString currentAnswer = ''.obs;
-
   final RxBool isLoading = true.obs;
+  final RxBool isQuizCompleted = false.obs;
+  final RxInt streakCount = 0.obs;
+  final RxDouble accuracy = 0.0.obs;
+
+  void resetQuiz() {
+    currentQuestionIndex.value = 0;
+    score.value = 0;
+    totalPoints.value = 0;
+    userAnswers.clear();
+    currentAnswer.value = '';
+    isQuizCompleted.value = false;
+    streakCount.value = 0;
+    accuracy.value = 0.0;
+  }
+
+  void answerQuestion(String selectedAnswer, int timeBonus) {
+    if (isQuizCompleted.value) return;
+
+    currentAnswer.value = selectedAnswer;
+    userAnswers.add(selectedAnswer);
+
+    final currentQuestion = quizQuestions[currentQuestionIndex.value];
+    bool isCorrect = selectedAnswer == currentQuestion['correctAnswer'];
+
+    if (isCorrect) {
+      score.value++;
+      streakCount.value++;
+      // Base points (10) + time bonus + streak bonus
+      int streakBonus = (streakCount.value > 1) ? streakCount.value * 2 : 0;
+      totalPoints.value += 10 + timeBonus + streakBonus;
+    } else {
+      streakCount.value = 0;
+    }
+
+    // Update accuracy
+    accuracy.value = (score.value / (currentQuestionIndex.value + 1)) * 100;
+
+    if (currentQuestionIndex.value < quizQuestions.length - 1) {
+      currentQuestionIndex.value++;
+    } else {
+      isQuizCompleted.value = true;
+    }
+  }
 
   Future<void> startQuiz(QuizType quizType, {List<String>? favorites}) async {
     isLoading.value = true;
@@ -43,21 +86,6 @@ class QuizController extends GetxController {
       print('Error generating quiz: $e');
     } finally {
       isLoading.value = false;
-    }
-  }
-
-  void answerQuestion(String selectedAnswer) {
-    currentAnswer.value = selectedAnswer;
-    userAnswers.add(selectedAnswer);
-
-    if (currentQuestionIndex < quizQuestions.length) {
-      if (selectedAnswer == quizQuestions[currentQuestionIndex.value]['correctAnswer']) {
-        score.value++;
-      }
-
-      if (currentQuestionIndex.value < quizQuestions.length - 1) {
-        currentQuestionIndex.value++;
-      }
     }
   }
 

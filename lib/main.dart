@@ -17,7 +17,7 @@ class VocabVault extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'VocabVault',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),

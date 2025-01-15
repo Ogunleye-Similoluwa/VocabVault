@@ -84,11 +84,6 @@ VocabVault is a modern, feature-rich vocabulary learning application built with 
 - Efficient state management
 - Minimal resource usage
 
-## 📱 Screenshots
-
-| Home Screen | Quiz Screen | Results Screen |
-|-------------|-------------|----------------|
-| [Image 1]   | [Image 2]   | [Image 3]      |
 
 
 

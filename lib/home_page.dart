@@ -134,9 +134,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           Text(
             'VocabVault',
             style: GoogleFonts.poppins(
-              textStyle: TextStyle(
+          textStyle: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: isDarkMode ? Colors.white : Colors.black87,
+            color: isDarkMode ? Colors.white : Colors.black87,
                 fontSize: 22,
               ),
             ),
@@ -217,16 +217,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 color: isDarkMode ? Colors.amber[300] : Colors.amber[700],
               ),
               const SizedBox(width: 8),
-              Text(
-                'Word of the Day',
-                style: GoogleFonts.lora(
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.white : Colors.black87,
-                  ),
-                ),
+          Text(
+            'Word of the Day',
+            style: GoogleFonts.lora(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.white : Colors.black87,
               ),
+            ),
+          ),
             ],
           ),
           const SizedBox(height: 12),
@@ -298,7 +298,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             setState(() {
               currentLanguage = newValue;
             });
-
             themeManager.obs.value.saveLanguagePreference(newValue);
           }
         },
@@ -528,8 +527,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: setList!.map((item) => InkWell(
               onTap: () => _getMeaningFromApi(item),
               child: Chip(
-                label: Text(item),
-                backgroundColor: isDarkMode ? Colors.blue[900] : Colors.blue[100],
+              label: Text(item),
+              backgroundColor: isDarkMode ? Colors.blue[900] : Colors.blue[100],
                 labelStyle: TextStyle(
                   color: isDarkMode ? Colors.white : Colors.black,
                   decoration: TextDecoration.underline,
@@ -601,36 +600,140 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _showSearchHistory() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
-        return Obx(() =>ListView.builder(
-          itemCount: historyManager.searchHistory.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                historyManager.searchHistory[index],
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: BoxDecoration(
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              // Handle bar
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                height: 4,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              onTap: () {
-                Navigator.pop(context);
-                _searchController.text = historyManager.searchHistory[index];
-                _getMeaningFromApi(historyManager.searchHistory[index]);
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
+              // Header
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Search History',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: isDarkMode ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                    ),
+                  ],
+                ),
+              ),
+              // List
+              Expanded(
+                child: Obx(() => historyManager.searchHistory.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.history,
+                            size: 64,
+                            color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No search history yet',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: historyManager.searchHistory.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemBuilder: (context, index) {
+                        final word = historyManager.searchHistory[index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isDarkMode ? Colors.grey[800] : Colors.grey[50],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isDarkMode ? Colors.grey[700]! : Colors.grey[200]!,
+                            ),
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: isDarkMode ? Colors.blue[700] : Colors.blue[100],
+                              child: Text(
+                                word[0].toUpperCase(),
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white : Colors.blue[700],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              word,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: isDarkMode ? Colors.white : Colors.black87,
+                              ),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.search),
                 onPressed: () {
-                  historyManager.removeFromSearchHistory(index);
                   Navigator.pop(context);
-                },
+                                    _getMeaningFromApi(word);
+                                  },
+                                  color: isDarkMode ? Colors.blue[300] : Colors.blue[700],
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () => historyManager.removeFromSearchHistory(index),
+                                  color: isDarkMode ? Colors.red[300] : Colors.red[700],
+                                ),
+                              ],
+                            ),
               ),
             );
           },
-        ));
+                    ),
+              ),
+          )],
+          ),
+        );
       },
     );
   }
@@ -638,44 +741,140 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _showFavorites() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
-        return Obx(()=> ListView.builder(
-          itemCount: historyManager.favorites.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                historyManager.favorites[index],
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          decoration: BoxDecoration(
+            color: isDarkMode ? Colors.grey[900] : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                height: 4,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              onTap: () {
-                Navigator.pop(context);
-                _searchController.text = historyManager.favorites[index];
-                _getMeaningFromApi(historyManager.favorites[index]);
-              },
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Favorite Words',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: isDarkMode ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Obx(() => historyManager.favorites.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.favorite_border,
+                            size: 64,
+                            color: isDarkMode ? Colors.grey[700] : Colors.grey[300],
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No favorite words yet',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: isDarkMode ? Colors.grey[500] : Colors.grey[600],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: historyManager.favorites.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemBuilder: (context, index) {
+                        final word = historyManager.favorites[index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isDarkMode ? Colors.grey[800] : Colors.grey[50],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: isDarkMode ? Colors.grey[700]! : Colors.grey[200]!,
+                            ),
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: isDarkMode ? Colors.red[700] : Colors.red[100],
+                              child: Text(
+                                word[0].toUpperCase(),
+                                style: TextStyle(
+                                  color: isDarkMode ? Colors.white : Colors.red[700],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              word,
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: isDarkMode ? Colors.white : Colors.black87,
+                              ),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.search),
                 onPressed: () {
-                  historyManager.removeFromFavorites(index);
-
                   Navigator.pop(context);
-                },
+                                    _getMeaningFromApi(word);
+                                  },
+                                  color: isDarkMode ? Colors.blue[300] : Colors.blue[700],
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () => historyManager.removeFromFavorites(index),
+                                  color: isDarkMode ? Colors.red[300] : Colors.red[700],
+                                ),
+                              ],
+                            ),
               ),
             );
           },
-        ));
+                    ),
+              ),
+          )],
+          ),
+        );
       },
     );
   }
-
-
-
-
 
   Future<void> _showWordOfTheDay() async {
     final randomWord = await API.fetchRandomWord();
@@ -683,14 +882,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     notificationManager.scheduleNotification(randomWord);
   }
 
-
-
   void _shareWord(String word) {
     Share.share('Check out this word: $word\n\nDefinition: ${responseModel?.meanings?[0].definitions?[0].definition ?? ""}');
   }
-
-
-
 
   Future<void> _fetchWordOfTheDay() async {
     try {

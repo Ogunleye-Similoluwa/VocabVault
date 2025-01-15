@@ -4,46 +4,66 @@ VocabVault is a modern, feature-rich vocabulary learning application built with 
 
 ![VocabVault Banner](assets/banner.png)
 
-## ✨ Features
+# VocabVault 📚
 
-### 📖 Dictionary Features
-- **Word Lookup**: Search for any word to get detailed definitions
-- **Phonetics**: View and listen to word pronunciations
-- **Examples**: See words used in context
-- **Synonyms & Antonyms**: Explore related words
-- **Favorites**: Save words for later reference
-- **Search History**: Keep track of your lookups
+<div align="center">
+  <img src="screenshots/app_logo.png" alt="VocabVault Logo" width="200"/>
+  
+  <p>A modern vocabulary learning app that makes expanding your word knowledge fun and effective.</p>
 
-### 🎯 Quiz Features
-- **Adaptive Quizzes**: Test your knowledge with dynamically generated questions
-- **Multiple Quiz Types**:
-  - Random words quiz
-  - Favorites-based quiz
-- **Interactive Learning**:
-  - Timed questions (30 seconds per question)
-  - Streak bonuses
-  - Point-based scoring system
-  - Hints available
-- **Performance Tracking**:
-  - Accuracy statistics
-  - Streak counter
-  - Detailed review screen
-  - Progress visualization
+  [![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?logo=flutter)](https://flutter.dev)
+  [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)](https://dart.dev)
+  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+</div>
 
-### 🎨 UI/UX Features
-- **Modern Design**: Clean and intuitive interface
-- **Dark Mode Support**: Comfortable viewing in any lighting
-- **Smooth Animations**: Polished user experience
-- **Responsive Layout**: Works on all screen sizes
-- **Progress Indicators**: Visual feedback for actions
-- **Confetti Celebrations**: Rewarding achievements
+## 📱 Screenshots
 
-## 🚀 Getting Started
+<div align="center">
+  <div style="display: flex; flex-direction: row;">
+    <img src="screenshots/home_screen.png" width="200" alt="Home Screen"/>
+    <img src="screenshots/quiz_screen.png" width="200" alt="Quiz Screen"/>
+    <img src="screenshots/results_screen.png" width="200" alt="Results Screen"/>
+  </div>
+</div>
 
-### Prerequisites
-- Flutter (latest version)
-- Dart SDK
-- Android Studio / Xcode
+## ✨ Key Features
+
+### 📖 Dictionary
+- **Smart Search**: Instant word lookups with auto-suggestions
+- **Rich Word Details**: 
+  - Detailed definitions
+  - Audio pronunciations
+  - Example sentences
+  - Synonyms & antonyms
+- **Personal Collection**: 
+  - Save favorite words
+  - View search history
+  - Share words with friends
+
+### 🎯 Interactive Quiz
+- **Multiple Quiz Modes**:
+  - Random words challenge
+  - Practice with favorites
+  - Daily word quiz
+- **Engaging Features**:
+  - 30-second timed questions
+  - Streak multipliers
+  - Point-based rewards
+  - Helpful hints system
+- **Progress Tracking**:
+  - Real-time accuracy stats
+  - Performance analytics
+  - Detailed review system
+
+### 🎨 Modern Design
+- Sleek, intuitive interface
+- Dark/Light theme support
+- Smooth animations
+- Responsive on all devices
+- Visual feedback
+- Achievement celebrations
+
+
 
 
 ## 🛠️ Technical Features

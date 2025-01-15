@@ -120,41 +120,13 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
 
   Widget _buildQuizHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
             icon: const Icon(Icons.close, color: Colors.white),
-            onPressed: () async {
-              final shouldExit = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('Exit Quiz?'),
-                  content: Text('Are you sure you want to exit? Your progress will be lost.'),
-                  actions: [
-                    TextButton(
-                      child: Text('Cancel'),
-                      onPressed: () => Navigator.pop(context, false),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      child: Text('Exit'),
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                      },
-                    ),
-                  ],
-                ),
-              );
-              
-              if (shouldExit == true) {
-                timer?.cancel();
-                Navigator.of(context).pop();
-              }
-            },
+            onPressed: () => _showExitConfirmationDialog(context),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -165,7 +137,7 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
             child: Row(
               children: [
                 const Icon(Icons.star, color: Colors.amber, size: 20),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 Obx(() => Text(
                   '${quizController.score}',
                   style: const TextStyle(
@@ -299,36 +271,39 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
     final bool isSelected = quizController.currentAnswer.value == option;
     final bool isCorrect = option == correctAnswer;
 
-    Color getButtonColor() {
-      if (!isAnswered) return Colors.white;
-      if (isSelected) {
-        return isCorrect ? Colors.green.shade100 : Colors.red.shade100;
-      }
-      if (isCorrect) return Colors.green.shade50;
-      return Colors.white;
-    }
-
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(20),
-          backgroundColor: getButtonColor(),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          backgroundColor: isAnswered
+              ? (isSelected
+                  ? (isCorrect ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2))
+                  : Colors.white)
+              : Colors.white,
           foregroundColor: Colors.black87,
-          elevation: isAnswered ? 2 : 4,
+          elevation: isAnswered ? 0 : 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: isAnswered
+                  ? (isSelected
+                      ? (isCorrect ? Colors.green : Colors.red)
+                      : Colors.grey.withOpacity(0.2))
+                  : Colors.grey.withOpacity(0.2),
+              width: 1,
+            ),
           ),
         ),
         onPressed: isAnswered ? null : () => _handleAnswer(option, correctAnswer, context),
         child: Row(
           children: [
             Container(
-              width: 30,
-              height: 30,
+              width: 32,
+              height: 32,
               decoration: BoxDecoration(
-                color: Colors.blue[50],
+                color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
@@ -337,6 +312,7 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
                   style: TextStyle(
                     color: Colors.blue[700],
                     fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -355,6 +331,7 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
               Icon(
                 isCorrect ? Icons.check_circle : Icons.cancel,
                 color: isCorrect ? Colors.green : Colors.red,
+                size: 20,
               ),
           ],
         ),
@@ -991,14 +968,14 @@ class _AdvancedQuizPageState extends State<AdvancedQuizPage> with SingleTickerPr
     return Obx(() => Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.2),
+        color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         'Accuracy: ${quizController.accuracy.value.toStringAsFixed(1)}%',
-        style: TextStyle(
-          color: Colors.blue[700],
-          fontWeight: FontWeight.bold,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
         ),
       ),
     ));

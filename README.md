@@ -1,16 +1,75 @@
-# advanced_dictionary
+# VocabVault 📚
 
-A Dictionary application and a whole lot more
+VocabVault is a modern, feature-rich vocabulary learning application built with Flutter. It combines dictionary functionality with interactive quizzes to make learning new words engaging and effective.
 
-## Getting Started
+![VocabVault Banner](assets/banner.png)
 
-This project is a starting point for a Flutter application.
+## ✨ Features
 
-A few resources to get you started if this is your first Flutter project:
+### 📖 Dictionary Features
+- **Word Lookup**: Search for any word to get detailed definitions
+- **Phonetics**: View and listen to word pronunciations
+- **Examples**: See words used in context
+- **Synonyms & Antonyms**: Explore related words
+- **Favorites**: Save words for later reference
+- **Search History**: Keep track of your lookups
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🎯 Quiz Features
+- **Adaptive Quizzes**: Test your knowledge with dynamically generated questions
+- **Multiple Quiz Types**:
+  - Random words quiz
+  - Favorites-based quiz
+- **Interactive Learning**:
+  - Timed questions (30 seconds per question)
+  - Streak bonuses
+  - Point-based scoring system
+  - Hints available
+- **Performance Tracking**:
+  - Accuracy statistics
+  - Streak counter
+  - Detailed review screen
+  - Progress visualization
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🎨 UI/UX Features
+- **Modern Design**: Clean and intuitive interface
+- **Dark Mode Support**: Comfortable viewing in any lighting
+- **Smooth Animations**: Polished user experience
+- **Responsive Layout**: Works on all screen sizes
+- **Progress Indicators**: Visual feedback for actions
+- **Confetti Celebrations**: Rewarding achievements
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Flutter (latest version)
+- Dart SDK
+- Android Studio / Xcode
+
+
+## 🛠️ Technical Features
+
+### Architecture
+- GetX State Management
+- Clean Architecture principles
+- Modular design
+
+### APIs and Services
+- Dictionary API integration
+- Local storage for favorites and history
+- Text-to-speech functionality
+- Share capabilities
+
+### Performance
+- Optimized animations
+- Efficient state management
+- Minimal resource usage
+
+## 📱 Screenshots
+
+| Home Screen | Quiz Screen | Results Screen |
+|-------------|-------------|----------------|
+| [Image 1]   | [Image 2]   | [Image 3]      |
+
+
+
+

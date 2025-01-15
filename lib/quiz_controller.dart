@@ -9,6 +9,7 @@ class QuizController extends GetxController {
   final RxInt score = 0.obs;
   final RxList<Map<String, dynamic>> quizQuestions = <Map<String, dynamic>>[].obs;
   final RxList<String> userAnswers = <String>[].obs;
+  final RxString currentAnswer = ''.obs;
 
   final RxBool isLoading = true.obs;
 
@@ -46,11 +47,11 @@ class QuizController extends GetxController {
   }
 
   void answerQuestion(String selectedAnswer) {
+    currentAnswer.value = selectedAnswer;
     userAnswers.add(selectedAnswer);
 
     if (currentQuestionIndex < quizQuestions.length) {
-      final currentQuestion = quizQuestions[currentQuestionIndex.value];
-      if (selectedAnswer == currentQuestion['correctAnswer']) {
+      if (selectedAnswer == quizQuestions[currentQuestionIndex.value]['correctAnswer']) {
         score.value++;
       }
 

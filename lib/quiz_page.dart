@@ -349,6 +349,7 @@ class AdvancedQuizPage extends StatelessWidget {
         _showQuizResults(context);
       } else {
         timeRemaining.value = 30;
+        quizController.currentAnswer.value = '';
       }
     });
   }

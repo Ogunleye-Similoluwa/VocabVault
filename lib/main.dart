@@ -9,16 +9,16 @@ import 'home_page.dart';
 void main() {
   Get.put(HistoryManager());
   Get.put(ThemeManager());
-  runApp(const MyApp());
+  runApp(const VocabVault());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class VocabVault extends StatelessWidget {
+  const VocabVault({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'VocabVault',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       home: HomePage(),

@@ -114,35 +114,74 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(
-        'Advanced Dictionary',
-        style: GoogleFonts.lora(
-          textStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.black87,
+      elevation: 0,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
+      title: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isDarkMode ? Colors.blue[700] : Colors.blue[100],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.auto_stories,
+              color: isDarkMode ? Colors.white : Colors.blue[700],
+              size: 24,
+            ),
           ),
-        ),
+          const SizedBox(width: 12),
+          Text(
+            'VocabVault',
+            style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: isDarkMode ? Colors.white : Colors.black87,
+                fontSize: 22,
+              ),
+            ),
+          ),
+        ],
       ),
-      backgroundColor:!isDarkMode ? Colors.white : Colors.black87,
-      elevation: 1,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.history),
+        _buildActionButton(
+          icon: Icons.history,
           onPressed: _showSearchHistory,
-          color: isDarkMode ? Colors.white : Colors.black87,
+          tooltip: 'Search History',
         ),
-        IconButton(
-          icon: const Icon(Icons.favorite),
+        _buildActionButton(
+          icon: Icons.favorite,
           onPressed: _showFavorites,
-          color: isDarkMode ? Colors.white : Colors.black87,
+          tooltip: 'Favorites',
         ),
-        IconButton(
-          icon: const Icon(Icons.quiz),
+        _buildActionButton(
+          icon: Icons.quiz,
           onPressed: _startQuiz,
-          color: isDarkMode ? Colors.white : Colors.black87,
+          tooltip: 'Start Quiz',
         ),
-        
+        const SizedBox(width: 8),
       ],
+    );
+  }
+
+  Widget _buildActionButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+    required String tooltip,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      decoration: BoxDecoration(
+        color: isDarkMode ? Colors.grey[800] : Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: IconButton(
+        icon: Icon(icon),
+        onPressed: onPressed,
+        tooltip: tooltip,
+        color: isDarkMode ? Colors.white : Colors.black87,
+        iconSize: 22,
+      ),
     );
   }
 
@@ -152,6 +191,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDarkMode 
+            ? [Colors.grey[800]!, Colors.grey[900]!]
+            : [Colors.blue[50]!, Colors.blue[100]!],
+        ),
         boxShadow: [
           BoxShadow(
             color: isDarkMode ? Colors.black26 : Colors.grey.withOpacity(0.3),
@@ -164,36 +210,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Word of the Day',
-            style: GoogleFonts.lora(
-              textStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: isDarkMode ? Colors.white : Colors.black87,
+          Row(
+            children: [
+              Icon(
+                Icons.auto_awesome,
+                color: isDarkMode ? Colors.amber[300] : Colors.amber[700],
               ),
-            ),
+              const SizedBox(width: 8),
+              Text(
+                'Word of the Day',
+                style: GoogleFonts.lora(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.black87,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
             wordOfTheDay,
             style: GoogleFonts.merriweather(
               textStyle: TextStyle(
-                fontSize: 24,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: isDarkMode ? Colors.blue[200] : Colors.blue[700],
+                letterSpacing: 0.5,
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           Text(
             wordOfTheDayDefinition,
             style: GoogleFonts.lato(
               textStyle: TextStyle(
                 fontSize: 16,
                 color: isDarkMode ? Colors.white70 : Colors.black87,
+                height: 1.5,
               ),
             ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton.icon(
+                icon: Icon(Icons.volume_up),
+                label: Text('Pronounce'),
+                onPressed: () => _speak(wordOfTheDay),
+                style: TextButton.styleFrom(
+                  foregroundColor: isDarkMode ? Colors.blue[200] : Colors.blue[700],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -454,13 +525,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
-            children: setList!
-                .map((item) => Chip(
-              label: Text(item),
-              backgroundColor: isDarkMode ? Colors.blue[900] : Colors.blue[100],
-              labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-            ))
-                .toList(),
+            children: setList!.map((item) => InkWell(
+              onTap: () => _getMeaningFromApi(item),
+              child: Chip(
+                label: Text(item),
+                backgroundColor: isDarkMode ? Colors.blue[900] : Colors.blue[100],
+                labelStyle: TextStyle(
+                  color: isDarkMode ? Colors.white : Colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            )).toList(),
           ),
         ],
       );
